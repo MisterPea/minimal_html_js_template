@@ -8,6 +8,23 @@ module.exports = {
     filename: "bundle.js"
   },
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+  module: {
+    rules: [
+      {
+        test: /\.csv$/,
+        loader: 'csv-loader',
+        options: {
+          dynamicTyping: true,
+          header: true,
+          skipEmptyLines: true
+        }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader']
+      }
+    ]
+  },
   devServer: {
     client: {
       webSocketTransport: 'sockjs', // Needed b/c webSocket was crashing devServer
@@ -20,6 +37,6 @@ module.exports = {
     host: '192.168.1.152',
   },
   plugins: [
-    new HtmlWebpackPlugin({template:'./index.html'})
+    new HtmlWebpackPlugin({ template: './index.html' })
   ]
 };
